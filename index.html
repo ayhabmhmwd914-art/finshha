@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>لوحة تحكم فنشها السحابية - Finshha Cloud</title>
+    <link rel="icon" type="image/jpeg" href="683810779_122165288594702819_8178190765004809065_n.jpg">
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -58,8 +59,8 @@
             <div class="flex items-center space-x-reverse space-x-3">
                 <div class="w-10 h-10 rounded-full bg-blue-500 flex items-center justify-center text-white font-bold text-lg shadow-md">م</div>
                 <div>
-                    <h4 class="text-sm font-semibold">محمود أشرف</h4>
-                    <p class="text-xs text-slate-400">إدارة التسويق</p>
+                    <h4 class="text-sm font-semibold">المسؤول</h4>
+                    <p class="text-xs text-slate-400">ادارة الحسابات</p>
                 </div>
             </div>
             <button onclick="logout()" class="text-xs text-red-400 hover:text-red-300">خروج</button>
@@ -68,13 +69,13 @@
 
     <main id="main-content" class="flex-1 mr-64 p-8 min-h-screen hidden">
         <header class="flex justify-between items-center mb-8 bg-white p-4 rounded-xl shadow-sm border border-gray-100">
-            <h2 id="page-title" class="text-2xl font-bold text-slate-800">لوحة التحكم وإدارة العمليات السحابية</h2>
+            <h2 id="page-title" class="text-2xl font-bold text-slate-800">لوحة التحكم وإدارة العمليات </h2>
             <div class="flex items-center space-x-reverse space-x-4">
                 <button onclick="exportToExcel()" class="bg-emerald-600 hover:bg-emerald-700 text-white px-4 py-2 rounded-lg font-semibold flex items-center space-x-reverse space-x-2 shadow-sm transition">
                     <span>📥</span> <span>تصدير إلى Excel</span>
                 </button>
                 <button onclick="openModal()" class="bg-blue-600 hover:bg-blue-700 text-white px-5 py-2 rounded-lg font-bold shadow-md flex items-center space-x-reverse space-x-2 transition">
-                    <span>➕</span> <span>إضافة operation جديدة</span>
+                    <span>➕</span> <span>إضافة عملية جديدة</span>
                 </button>
             </div>
         </header>
@@ -111,24 +112,34 @@
                 </div>
             </div>
 
-            <div class="mb-6 bg-white p-4 rounded-xl shadow-sm border border-gray-100 flex items-center">
-                <span class="ml-2 text-gray-400">🔍</span>
-                <input type="text" id="search-input" oninput="filterTable()" placeholder="ابحث باسم الصنايعي أو التخصص هنا..." class="w-full bg-transparent border-none outline-none text-sm p-1 text-gray-700">
+            <div class="mb-6 grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div class="bg-white p-4 rounded-xl shadow-sm border border-gray-100 flex items-center md:col-span-1">
+                    <span class="ml-2 text-gray-400">🔍</span>
+                    <input type="text" id="search-input" oninput="filterTable()" placeholder="بحث بالاسم أو التخصص..." class="w-full bg-transparent border-none outline-none text-sm p-1 text-gray-700">
+                </div>
+                <div class="bg-white p-3 rounded-xl shadow-sm border border-gray-100 flex items-center">
+                    <label class="text-xs text-gray-400 ml-2">اليوم:</label>
+                    <input type="date" id="filter-date" onchange="filterTable()" class="w-full bg-transparent border-none outline-none text-sm text-gray-700">
+                </div>
+                <div class="bg-white p-3 rounded-xl shadow-sm border border-gray-100 flex items-center">
+                    <label class="text-xs text-gray-400 ml-2">الشهر:</label>
+                    <input type="month" id="filter-month" onchange="filterTable()" class="w-full bg-transparent border-none outline-none text-sm text-gray-700">
+                </div>
             </div>
 
             <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
                 <div class="overflow-x-auto">
-                    <table class="w-full text-right border-collapse">
+                    <table id="main-table" class="w-full text-right border-collapse">
                         <thead>
                             <tr class="bg-slate-100 text-slate-600 text-sm font-semibold border-b border-gray-200">
                                 <th class="p-4">التاريخ</th>
                                 <th class="p-4">اسم الصنايعي</th>
                                 <th class="p-4">التخصص</th>
-                                <th class="p-4">التكلفة الإجمالية</th>
-                                <th class="p-4">نسبة الشركة</th>
-                                <th class="p-4">صافي الأرباح</th>
-                                <th class="p-4">حالة الضمان</th>
-                                <th class="p-4">حالة التسوّية</th>
+                                <th class="p-4">التكلفة</th>
+                                <th class="p-4">النسبة</th>
+                                <th class="p-4">الربح</th>
+                                <th class="p-4">الضمان</th>
+                                <th class="p-4">التسوية</th>
                                 <th class="p-4 text-center">إجراءات</th>
                             </tr>
                         </thead>
@@ -145,8 +156,8 @@
                         <tr class="bg-slate-100 text-slate-600 text-sm border-b border-gray-200">
                             <th class="p-4">اسم الفني</th>
                             <th class="p-4">التخصص</th>
-                            <th class="p-4">عدد العمليات الكلية</th>
-                            <th class="p-4">إجمالي المبيعات المنفذة</th>
+                            <th class="p-4">عدد العمليات</th>
+                            <th class="p-4">إجمالي المبيعات</th>
                         </tr>
                     </thead>
                     <tbody id="handymen-table-body" class="divide-y divide-gray-100 text-sm"></tbody>
@@ -161,9 +172,9 @@
                         <tr class="bg-slate-100 text-slate-600 text-sm border-b border-gray-200">
                             <th class="p-4">التاريخ</th>
                             <th class="p-4">اسم الصنايعي</th>
-                            <th class="p-4">صافي ربح الشركة المطلوب</th>
-                            <th class="p-4">الحالة الحالية</th>
-                            <th class="p-4 text-center">تحديث الحالة</th>
+                            <th class="p-4">صافي ربح الشركة</th>
+                            <th class="p-4">الحالة</th>
+                            <th class="p-4 text-center">تحديث</th>
                         </tr>
                     </thead>
                     <tbody id="settlements-table-body" class="divide-y divide-gray-100 text-sm"></tbody>
@@ -182,13 +193,15 @@
                 <div class="grid grid-cols-2 gap-4">
                     <div>
                         <label class="block text-xs font-semibold text-gray-500 mb-1">التاريخ</label>
-                        <input type="date" id="form-date" required class="w-full p-2.5 border border-gray-200 rounded-lg text-sm bg-gray-50 outline-none">
+                        <input type="date" id="form-date" required max="" class="w-full p-2.5 border border-gray-200 rounded-lg text-sm bg-gray-50 outline-none">
                     </div>
                     <div>
                         <label class="block text-xs font-semibold text-gray-500 mb-1">اسم الصنايعي</label>
                         <input type="text" id="form-name" required placeholder="مثال: محمد أمين" class="w-full p-2.5 border border-gray-200 rounded-lg text-sm bg-gray-50 outline-none">
                     </div>
                 </div>
+                <script>document.getElementById('form-date').max = new Date().toISOString().split('T')[0];</script>
+                
                 <div>
                     <label class="block text-xs font-semibold text-gray-500 mb-1">التخصص</label>
                     <select id="form-profession" class="w-full p-2.5 border border-gray-200 rounded-lg text-sm bg-gray-50 outline-none">
@@ -242,7 +255,6 @@
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
         import { getDatabase, ref, set, push, onValue, remove, update } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
-        // استدعاء نظام مصادقة الهوية (Authentication) للأمان العالي
         import { getAuth, signInWithEmailAndPassword, signOut } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
 
         const firebaseConfig = {
@@ -257,56 +269,30 @@
 
         const app = initializeApp(firebaseConfig);
         const db = getDatabase(app);
-        const auth = getAuth(app); // ربط الأمان هنا بالسيستم
+        const auth = getAuth(app);
         const dbRef = ref(db, 'operations');
 
         let operations = [];
 
-        // دالة تسجيل الدخول الرسمية والمحمية عبر سيرفر جوجل
         window.handleLogin = function() {
             const email = document.getElementById('login-email').value.trim();
             const pass = document.getElementById('login-password').value;
-            const btn = document.getElementById('login-btn');
-
-            btn.innerText = "جاري التحقق من الهوية...";
-            btn.disabled = true;
-
-            // تسجيل الدخول الحقيقي في الفايربيز
             signInWithEmailAndPassword(auth, email, pass)
-                .then((userCredential) => {
+                .then(() => {
                     document.getElementById('auth-screen').classList.add('hidden');
                     document.getElementById('main-sidebar').classList.remove('hidden');
                     document.getElementById('main-content').classList.remove('hidden');
-                    document.getElementById('login-error').classList.add('hidden');
                     listenToCloudData();
                 })
-                .catch((error) => {
-                    document.getElementById('login-error').classList.remove('hidden');
-                    console.error("Auth Error: ", error.message);
-                })
-                .finally(() => {
-                    btn.innerText = "تسجيل الدخول للنظام";
-                    btn.disabled = false;
-                });
+                .catch(() => { document.getElementById('login-error').classList.remove('hidden'); });
         }
 
-        window.logout = function() {
-            signOut(auth).then(() => {
-                document.getElementById('auth-screen').classList.remove('hidden');
-                document.getElementById('main-sidebar').classList.add('hidden');
-                document.getElementById('main-content').classList.add('hidden');
-            });
-        }
+        window.logout = function() { signOut(auth).then(() => location.reload()); }
 
         function listenToCloudData() {
             onValue(dbRef, (snapshot) => {
                 const data = snapshot.val();
-                operations = [];
-                if (data) {
-                    for (let key in data) {
-                        operations.push({ id: key, ...data[key] });
-                    }
-                }
+                operations = data ? Object.keys(data).map(key => ({ id: key, ...data[key] })) : [];
                 renderAll();
             });
         }
@@ -316,7 +302,6 @@
             const cost = parseFloat(document.getElementById('form-cost').value);
             const rate = parseFloat(document.getElementById('form-rate').value);
             const profit = (cost * rate) / 100;
-
             const newOp = {
                 date: document.getElementById('form-date').value,
                 name: document.getElementById('form-name').value.trim(),
@@ -327,79 +312,56 @@
                 warranty: document.getElementById('form-warranty').value,
                 settled: document.getElementById('form-settlement').value
             };
-
-            const newPostRef = push(dbRef);
-            set(newPostRef, newOp)
-                .then(() => {
-                    closeModal();
-                })
-                .catch((err) => {
-                    alert("فشل الحفظ السحابي، تأكد من تسجيل دخولك كمسؤول! " + err.message);
-                });
-        }
-
-        window.deleteOperation = function(id) {
-            if(confirm("هل أنت متأكد من حذف هذه العملية نهائياً؟")) {
-                remove(ref(db, `operations/${id}`));
-            }
-        }
-
-        window.toggleSettle = function(id, currentStatus) {
-            const nextStatus = currentStatus === 'تمت التسوّية' ? 'معلق' : 'تمت التسوّية';
-            update(ref(db, `operations/${id}`), { settled: nextStatus });
-        }
-
-        window.toggleWarranty = function(id, currentStatus) {
-            const nextStatus = currentStatus === 'تم الإرسال' ? 'معلق' : 'تم الإرسال';
-            update(ref(db, `operations/${id}`), { warranty: nextStatus });
-        }
-
-        window.exportToExcel = function() {
-            if (operations.length === 0) { alert("لا توجد بيانات!"); return; }
-            let excelTemplate = `<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-microsoft-com:office:excel" xmlns="http://www.w3.org/TR/REC-html40"><head><meta charset="UTF-8"><style>table { border-collapse: collapse; } th { background-color: #1e293b; color: white; border: 1px solid #94a3b8; padding: 6px; } td { border: 1px solid #cbd5e1; text-align: center; height: 25px; }</style></head><body><table><tr><td colspan="8" style="font-size:16pt; font-weight:bold; color:#1d4ed8; text-align:center;">شركة فنشها للعمليات والصيانة المنزلية</td></tr><tr><th>التاريخ</th><th>اسم الصنايعي</th><th>التخصص</th><th>التكلفة</th><th>النسبة</th><th>صافي الربح</th><th>الضمان</th><th>التسوية</th></tr>`;
-            operations.forEach(op => {
-                excelTemplate += `<tr><td>${op.date}</td><td>${op.name}</td><td>${op.profession}</td><td>${op.cost} ج.م</td><td>${op.rate}%</td><td style="color:#16a34a; font-weight:bold;">${op.profit} ج.م</td><td>${op.warranty}</td><td>${op.settled}</td></tr>`;
-            });
-            excelTemplate += `</table></body></html>`;
-            const blob = new Blob([excelTemplate], { type: 'application/vnd.ms-excel;charset=utf-8;' });
-            const link = document.createElement("a");
-            link.href = URL.createObjectURL(blob);
-            link.setAttribute("download", `تقرير_فنشها_السحابي_${new Date().toISOString().split('T')[0]}.xls`);
-            link.click();
+            set(push(dbRef), newOp).then(closeModal);
         }
 
         window.filterTable = function() {
             const query = document.getElementById('search-input').value.toLowerCase();
-            renderMainTable(query);
+            const dateFilter = document.getElementById('filter-date').value;
+            const monthFilter = document.getElementById('filter-month').value;
+            const tbody = document.getElementById('operations-table-body'); 
+            tbody.innerHTML = "";
+            
+            const filtered = operations.filter(op => {
+                const matchesQuery = op.name.toLowerCase().includes(query) || op.profession.toLowerCase().includes(query);
+                const matchesDate = !dateFilter || op.date === dateFilter;
+                const matchesMonth = !monthFilter || op.date.startsWith(monthFilter);
+                return matchesQuery && matchesDate && matchesMonth;
+            });
+
+            filtered.forEach(op => {
+                const wBadge = op.warranty === 'تم الإرسال' ? 'bg-green-100 text-green-800' : 'bg-amber-100 text-amber-800';
+                const sBadge = op.settled === 'تمت التسوّية' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800';
+                
+                // هنا التعديل: المدير فقط هو من يرى زر الحذف
+                const isAdmin = auth.currentUser && auth.currentUser.email === "ehab@gmail.com";
+                const deleteBtn = isAdmin ? `<button onclick="deleteOperation('${op.id}')" class="text-red-500 hover:text-red-700 text-xs">❌ حذف</button>` : "";
+
+                tbody.innerHTML += `<tr class="hover:bg-gray-50 border-b border-gray-100"><td class="p-4">${op.date}</td><td class="p-4 font-bold text-slate-800">${op.name}</td><td class="p-4"><span class="px-2 bg-gray-100 rounded text-xs">${op.profession}</span></td><td class="p-4 font-bold">${op.cost} ج.م</td><td class="p-4">${op.rate}%</td><td class="p-4 font-bold text-emerald-600">${op.profit} ج.م</td><td class="p-4"><button onclick="toggleWarranty('${op.id}', '${op.warranty}')" class="px-2 py-0.5 rounded-full text-xs font-semibold ${wBadge}">${op.warranty}</button></td><td class="p-4"><button onclick="toggleSettle('${op.id}', '${op.settled}')" class="px-2 py-0.5 rounded-full text-xs font-semibold ${sBadge}">${op.settled}</button></td><td class="p-4 text-center">${deleteBtn}</td></tr>`;
+            });
+            calculateKPIs(filtered);
         }
 
+        window.deleteOperation = function(id) { if(confirm("حذف العملية؟")) remove(ref(db, `operations/${id}`)); }
+        window.toggleSettle = function(id, status) { update(ref(db, `operations/${id}`), { settled: status === 'تمت التسوّية' ? 'معلق' : 'تمت التسوّية' }); }
+        window.toggleWarranty = function(id, status) { update(ref(db, `operations/${id}`), { warranty: status === 'تم الإرسال' ? 'معلق' : 'تم الإرسال' }); }
+
         function renderAll() {
-            calculateKPIs();
-            renderMainTable();
+            filterTable();
             renderHandymenTable();
             renderSettlementsTable();
         }
 
-        function calculateKPIs() {
+        function calculateKPIs(filtered) {
             let totalRev = 0, totalProfit = 0, pendingCount = 0;
-            operations.forEach(op => {
+            filtered.forEach(op => {
                 totalRev += op.cost; totalProfit += op.profit;
                 if (op.settled === 'معلق') pendingCount++;
             });
-            document.getElementById('stat-total-ops').innerText = operations.length;
+            document.getElementById('stat-total-ops').innerText = filtered.length;
             document.getElementById('stat-total-rev').innerText = totalRev.toLocaleString('ar-EG') + ' ج.م';
             document.getElementById('stat-total-profit').innerText = totalProfit.toLocaleString('ar-EG') + ' ج.م';
             document.getElementById('stat-pending-settle').innerText = pendingCount;
-        }
-
-        function renderMainTable(filterQuery = "") {
-            const tbody = document.getElementById('operations-table-body'); tbody.innerHTML = "";
-            const filtered = operations.filter(op => op.name.toLowerCase().includes(filterQuery) || op.profession.toLowerCase().includes(filterQuery));
-            filtered.forEach(op => {
-                const wBadge = op.warranty === 'تم الإرسال' ? 'bg-green-100 text-green-800' : 'bg-amber-100 text-amber-800';
-                const sBadge = op.settled === 'تمت التسوّية' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800';
-                tbody.innerHTML += `<tr class="hover:bg-gray-50 border-b border-gray-100"><td class="p-4">${op.date}</td><td class="p-4 font-bold text-slate-800">${op.name}</td><td class="p-4"><span class="px-2 bg-gray-100 rounded text-xs">${op.profession}</span></td><td class="p-4 font-bold">${op.cost} ج.م</td><td class="p-4">${op.rate}%</td><td class="p-4 font-bold text-emerald-600">${op.profit} ج.م</td><td class="p-4"><button onclick="toggleWarranty('${op.id}', '${op.warranty}')" class="px-2 py-0.5 rounded-full text-xs font-semibold ${wBadge}">${op.warranty}</button></td><td class="p-4"><button onclick="toggleSettle('${op.id}', '${op.settled}')" class="px-2 py-0.5 rounded-full text-xs font-semibold ${sBadge}">${op.settled}</button></td><td class="p-4 text-center"><button onclick="deleteOperation('${op.id}')" class="text-red-500 hover:text-red-700 text-xs">❌ حذف</button></td></tr>`;
-            });
         }
 
         function renderHandymenTable() {
@@ -410,7 +372,7 @@
                 summary[op.name].count++; summary[op.name].sales += op.cost;
             });
             for (let name in summary) {
-                tbody.innerHTML += `<tr class="hover:bg-gray-50 border-b border-gray-100"><td class="p-4 font-bold">${name}</td><td class="p-4"><span class="px-2 bg-blue-50 text-blue-700 rounded text-xs">${summary[name].profession}</span></td><td class="p-4">${summary[name].count} عمليات</td><td class="p-4 font-bold">${summary[name].sales} ج.م</td></tr>`;
+                tbody.innerHTML += `<tr class="hover:bg-gray-50 border-b border-gray-100"><td class="p-4 font-bold">${name}</td><td class="p-4"><span class="px-2 bg-blue-50 text-blue-700 rounded text-xs">${summary[name].profession}</span></td><td class="p-4">${summary[name].count} عملية</td><td class="p-4 font-bold">${summary[name].sales} ج.م</td></tr>`;
             }
         }
 
@@ -422,16 +384,67 @@
             });
         }
     </script>
-
     <script>
         function switchTab(tabId) {
-            document.querySelectorAll('.tab-content').forEach(content => content.classList.add('hidden'));
+            document.querySelectorAll('.tab-content').forEach(c => c.classList.add('hidden'));
             document.getElementById(`view-${tabId}`).classList.remove('hidden');
-            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('bg-blue-600', 'text-white'));
+            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('bg-blue-600', 'text-white'));
             document.getElementById(`btn-${tabId}`).classList.add('bg-blue-600', 'text-white');
         }
         function openModal() { document.getElementById('operation-modal').classList.remove('hidden'); }
         function closeModal() { document.getElementById('operation-modal').classList.add('hidden'); document.getElementById('operation-form').reset(); }
+        function exportToExcel() { /* منطق التصدير كما هو */ }
+        window.exportToExcel = function() {
+            // 1. جلب البيانات المعروضة حالياً من جسم الجدول
+            const tableBody = document.getElementById("operations-table-body");
+            const rows = tableBody.querySelectorAll("tr");
+            
+            // 2. تجهيز تنسيق احترافي للجدول (CSS)
+            let html = `
+                <html dir="rtl"><head><meta charset="UTF-8">
+                <style>
+                    table { border-collapse: collapse; width: 100%; font-family: 'Cairo', sans-serif; }
+                    th { background-color: #f1f5f9; color: #475569; padding: 12px; border: 1px solid #cbd5e1; font-weight: bold; }
+                    td { padding: 10px; border: 1px solid #cbd5e1; text-align: center; }
+                    h2 { text-align: center; color: #2563eb; }
+                </style>
+                </head><body>
+                <h2>تقرير عمليات فنشها - ${new Date().toLocaleDateString('ar-EG')}</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>التاريخ</th><th>اسم الصنايعي</th><th>التخصص</th><th>التكلفة</th><th>النسبة</th><th>الربح</th><th>الضمان</th><th>التسوية</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+            `;
+
+            // 3. استخراج البيانات من الصفوف المرئية فقط
+            rows.forEach(row => {
+                const cells = row.querySelectorAll("td");
+                if (cells.length > 0) {
+                    html += `<tr>
+                        <td>${cells[0].innerText}</td>
+                        <td>${cells[1].innerText}</td>
+                        <td>${cells[2].innerText}</td>
+                        <td>${cells[3].innerText}</td>
+                        <td>${cells[4].innerText}</td>
+                        <td>${cells[5].innerText}</td>
+                        <td>${cells[6].innerText}</td>
+                        <td>${cells[7].innerText}</td>
+                    </tr>`;
+                }
+            });
+
+            html += '</tbody></table></body></html>';
+
+            // 4. تحميل الملف
+            let blob = new Blob([html], { type: "application/vnd.ms-excel" });
+            let a = document.createElement("a");
+            a.href = URL.createObjectURL(blob);
+            a.download = `تقرير_فنشها_${new Date().toISOString().slice(0, 10)}.xls`;
+            a.click();
+        }
     </script>
 </body>
 </html>
